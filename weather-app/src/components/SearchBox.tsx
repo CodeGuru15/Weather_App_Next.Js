@@ -2,15 +2,9 @@
 import CityContext from "@/context/cityContex/cityContex";
 import { useContext, useEffect, useState } from "react";
 
-// type Props = {
-//   value: string;
-//   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
-//   onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
-// };
-
 const SearchBox = () => {
-  const { cityData, error, loading, setApiUrl } = useContext(CityContext);
   const [searchText, setSearchText] = useState("");
+  const { setApiUrl, offset } = useContext(CityContext);
 
   const handleSearch = (e: any) => {
     setSearchText(e.target.value);
@@ -18,9 +12,9 @@ const SearchBox = () => {
 
   useEffect(() => {
     setApiUrl(
-      searchText === ""
-        ? "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=100"
-        : `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=-1&where=%22${searchText}%22`
+      searchText != ""
+        ? `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&offset=${offset}&where=%22${searchText}%22`
+        : `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&offset=${offset}`
     );
   }, [searchText]);
 

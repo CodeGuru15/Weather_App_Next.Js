@@ -1,7 +1,8 @@
 "use client";
 
 import CityContext from "@/context/cityContex/cityContex";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 interface props {
   name: string;
@@ -11,7 +12,8 @@ interface props {
 }
 
 const Data = () => {
-  const { cityData, error, loading } = useContext(CityContext);
+  const { cityData, error, loading, hasMore, loadMoreData } =
+    useContext(CityContext);
 
   return (
     <div className="flex flex-col p-5 justify-center">
@@ -26,12 +28,13 @@ const Data = () => {
           <h1 className="text-3xl font-semibold text-green-600">Loading...</h1>
         </div>
       )}
-      {cityData.length === 0 ? (
-        <div className=" flex justify-center text-red-600 text-3xl">
-          {" "}
-          <p>No such data found</p>
-        </div>
-      ) : (
+
+      <InfiniteScroll
+        hasMore={hasMore}
+        next={loadMoreData}
+        dataLength={cityData.length}
+        loader={<p>Loading...</p>}
+      >
         <table>
           <thead>
             <tr>
@@ -49,6 +52,7 @@ const Data = () => {
               </th>
             </tr>
           </thead>
+
           <tbody>
             {cityData.map((item: props, index: number) => (
               <tr key={index}>
@@ -68,7 +72,7 @@ const Data = () => {
             ))}
           </tbody>
         </table>
-      )}
+      </InfiniteScroll>
     </div>
   );
 };
