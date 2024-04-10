@@ -8,8 +8,9 @@ const CityContextProvider = ({ children }: { children: any }) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const apiUrl =
-    "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20";
+  const [apiUrl, setApiUrl] = useState(
+    "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=100"
+  );
 
   const fetchCityData = async (url: string) => {
     try {
@@ -29,7 +30,7 @@ const CityContextProvider = ({ children }: { children: any }) => {
   }, [apiUrl]);
 
   return (
-    <CityContext.Provider value={{ cityData, error, loading }}>
+    <CityContext.Provider value={{ cityData, error, loading, setApiUrl }}>
       {children}
     </CityContext.Provider>
   );

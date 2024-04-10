@@ -1,25 +1,38 @@
 "use client";
-import { IoSearch } from "react-icons/io5";
+import CityContext from "@/context/cityContex/cityContex";
+import { useContext, useEffect, useState } from "react";
 
-type Props = {
-  value: string;
-  onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
-  onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
-};
+// type Props = {
+//   value: string;
+//   onChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
+//   onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
+// };
 
-const SearchBox = (props: Props) => {
+const SearchBox = () => {
+  const { cityData, error, loading, setApiUrl } = useContext(CityContext);
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearch = (e: any) => {
+    setSearchText(e.target.value);
+  };
+
+  useEffect(() => {
+    setApiUrl(
+      searchText === ""
+        ? "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=100"
+        : `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=-1&where=%22${searchText}%22`
+    );
+  }, [searchText]);
+
   return (
-    <form onSubmit={props.onSubmit}>
+    <form>
       <input
         type="text"
-        value={props.value}
-        onChange={props.onChange}
+        value={searchText}
+        onChange={handleSearch}
         placeholder="Search location.."
-        className="px-4 py-2 w-[230px] border border-gray-300 rounded-l-md focus:outline-none  focus:border-blue-500 h-full"
+        className="px-4 py-2 w-[230px] border border-gray-300 rounded-md h-full focus:outline-none focus:border-blue-500"
       />
-      <button className="px-4 py-[9px] bg-blue-500 text-white rounded-r-md focus:outline-none hover:bg-blue-600  h-full">
-        <IoSearch />
-      </button>
     </form>
   );
 };

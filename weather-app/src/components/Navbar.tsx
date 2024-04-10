@@ -13,11 +13,7 @@ const Navbar = () => {
             <MdWbSunny className="text-3xl mt-1 text-yellow-300" />
           </div>
           <section className="flex gap-5 items-center">
-            {/* <SearchBox
-              value={city}
-              onSubmit={handleSubmiSearch}
-              onChange={(e) => handleInputChang(e.target.value)}
-            /> */}
+            <SearchBox />
             <MdMyLocation
               title="Your Current Location"
               className="text-2xl  text-gray-400 hover:opacity-70 cursor-pointer"
