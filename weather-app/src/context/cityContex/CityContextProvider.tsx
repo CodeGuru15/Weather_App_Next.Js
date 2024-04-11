@@ -16,19 +16,20 @@ const CityContextProvider = ({ children }: { children: any }) => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
+  const [searchText, setSearchText] = useState("");
 
-  const [apiUrl, setApiUrl] = useState(
-    `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&offset=${offset}`
-  );
+  const apiSearchUrl = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?where=%22${searchText}%22&limit=20&offset=${offset}`;
+
+  const apiUrl = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&offset=${offset}`;
 
   const fetchCityData = async (url: string) => {
     try {
       setLoading(true);
       setError(false);
       const response = await axios.get(url);
-      const additionalData = response.data.results;
-      setCityData((prevData) => [...prevData, ...additionalData]);
-      setHasMore(additionalData.length > 0);
+      const additionalData = await response.data.results;
+      setCityData(() => [...cityData, ...additionalData]);
+      setHasMore(additionalData.length >= 20); // 20 here the page limit
       setLoading(false);
     } catch (error) {
       setError(true);
@@ -41,8 +42,11 @@ const CityContextProvider = ({ children }: { children: any }) => {
   };
 
   useEffect(() => {
-    fetchCityData(apiUrl);
-  }, [apiUrl, offset]);
+    setTimeout(
+      () => fetchCityData(searchText != "" ? apiSearchUrl : apiUrl),
+      1000
+    );
+  }, [offset, searchText]);
 
   return (
     <CityContext.Provider
@@ -52,8 +56,12 @@ const CityContextProvider = ({ children }: { children: any }) => {
         loading,
         loadMoreData,
         hasMore,
+        setHasMore,
         offset,
-        setApiUrl,
+        setCityData,
+        searchText,
+        setSearchText,
+        setOffset,
       }}
     >
       {children}

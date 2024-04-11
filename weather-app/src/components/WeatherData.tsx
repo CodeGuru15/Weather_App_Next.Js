@@ -1,7 +1,7 @@
 "use client";
 
 import CityContext from "@/context/cityContex/cityContex";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 interface props {

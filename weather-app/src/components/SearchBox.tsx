@@ -1,22 +1,16 @@
 "use client";
 import CityContext from "@/context/cityContex/cityContex";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 const SearchBox = () => {
-  const [searchText, setSearchText] = useState("");
-  const { setApiUrl, offset } = useContext(CityContext);
+  const { searchText, setSearchText, setCityData, setOffset } =
+    useContext(CityContext);
 
   const handleSearch = (e: any) => {
     setSearchText(e.target.value);
+    setCityData([]);
+    setOffset(0);
   };
-
-  useEffect(() => {
-    setApiUrl(
-      searchText != ""
-        ? `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&offset=${offset}&where=%22${searchText}%22`
-        : `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?limit=20&offset=${offset}`
-    );
-  }, [searchText]);
 
   return (
     <form>
