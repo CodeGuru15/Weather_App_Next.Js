@@ -8,6 +8,7 @@ interface City {
   cou_name_en: string;
   timezone: string;
   population: number;
+  coordinates: { lon: number; lat: number };
 }
 
 const CityContextProvider = ({ children }: { children: any }) => {

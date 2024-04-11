@@ -1,16 +1,47 @@
 "use client";
 import CityContext from "@/context/cityContex/cityContex";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+
+interface props {
+  name: string;
+}
 
 const SearchBox = () => {
   const { searchText, setSearchText, setCityData, setOffset } =
     useContext(CityContext);
 
-  const handleSearch = (e: any) => {
+  const [suggestions, setSuggestions] = useState([]);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [suggestionBox, setSuggestionBox] = useState(false);
+
+  const apiSuggest = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?select=name&where=suggest(name%2C%20%22${searchText}%22)&limit=20`;
+
+  const fetchSuggestions = async (url: string) => {
+    try {
+      setLoading(true);
+      setError(false);
+      const response = await axios.get(url);
+      const suggetionData = await response.data.results;
+      setSuggestions(() => suggetionData);
+      setLoading(false);
+    } catch (error) {
+      setError(true);
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSuggestionBox(true);
     setSearchText(e.target.value);
     setCityData([]);
     setOffset(0);
   };
+
+  useEffect(() => {
+    fetchSuggestions(apiSuggest);
+  }, [searchText]);
 
   return (
     <form>
@@ -21,6 +52,33 @@ const SearchBox = () => {
         placeholder="Search location.."
         className="px-4 py-2 w-[230px] border border-gray-300 rounded-md h-full focus:outline-none focus:border-blue-500"
       />
+      {suggestionBox && searchText != "" && (
+        <div className=" py-2 w-[230px] bg-white fixed max-h-[150px] overflow-y-scroll">
+          {error && (
+            <span className=" text-red-600">Opps! Something Went Wrong.</span>
+          )}
+          {loading && (
+            <h1 className=" text-center text-green-600">Loading...</h1>
+          )}
+          {suggestions.length === 0 && searchText != "" && (
+            <p className="px-4">No suggestions</p>
+          )}
+          {!loading &&
+            suggestions.map((city: props, index: number) => (
+              <p
+                key={index}
+                className="px-4 hover:bg-gray-400 cursor-pointer"
+                onClick={() => {
+                  setSearchText(city.name);
+                  setCityData([]);
+                  setSuggestionBox(false);
+                }}
+              >
+                {city.name}
+              </p>
+            ))}
+        </div>
+      )}
     </form>
   );
 };
