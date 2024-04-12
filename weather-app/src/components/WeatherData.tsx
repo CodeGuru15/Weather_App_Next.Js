@@ -24,6 +24,9 @@ const Data = () => {
           <span className="text-center ">Please Try Again.</span>
         </h1>
       )}
+      {loading && (
+        <h1 className="text-3xl font-semibold text-green-500">Loading...</h1>
+      )}
 
       {cityData.length != 0 && (
         <InfiniteScroll
@@ -47,7 +50,7 @@ const Data = () => {
                   TIMEZONE
                 </th>
                 <th className="border border-black p-1 w-[150px] text-center">
-                  LON / LAT
+                  Population
                 </th>
               </tr>
             </thead>
@@ -65,7 +68,7 @@ const Data = () => {
                     {item.timezone}
                   </td>
                   <td className="border border-black p-1 w-[150px] text-center">
-                    {item.coordinates.lon} /<br /> {item.coordinates.lat}
+                    {item.population}
                   </td>
                 </tr>
               ))}
