@@ -8,7 +8,7 @@ interface props {
 }
 
 const SearchBox = () => {
-  const { setCityData, setOffset, setApiUrl, orderBy, offset } =
+  const { setCityData, setOffset, setApiUrl, orderBy, offset, apiEndpoint } =
     useContext(CityContext);
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -45,7 +45,7 @@ const SearchBox = () => {
     if (searchText != "") {
       fetchSuggestions(apiSuggest);
       setApiUrl(apiSearchUrl);
-    }
+    } else setApiUrl(apiEndpoint);
   }, [searchText]);
 
   return (

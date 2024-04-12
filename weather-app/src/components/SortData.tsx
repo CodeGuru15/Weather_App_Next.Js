@@ -7,8 +7,8 @@ const SortData = () => {
     useContext(CityContext);
 
   const handleSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCityData([]);
     setOrderBy(event.target.value);
+    setCityData([]);
   };
 
   useEffect(() => {
