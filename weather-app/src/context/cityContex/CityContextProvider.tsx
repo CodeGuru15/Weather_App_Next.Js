@@ -20,7 +20,7 @@ const CityContextProvider = ({ children }: { children: any }) => {
   const [searchText, setSearchText] = useState("");
   const [orderBy, setOrderBy] = useState("");
 
-  const apiSearchUrl = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?where=%22${searchText}%22&limit=20&offset=${offset}`;
+  const apiSearchUrl = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?where=%22${searchText}%22&order_by=${orderBy}&limit=20&offset=${offset}`;
 
   const apiUrl = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?order_by=${orderBy}&limit=20&offset=${offset}`;
 
