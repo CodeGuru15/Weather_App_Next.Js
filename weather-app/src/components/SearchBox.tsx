@@ -1,6 +1,7 @@
 "use client";
 import CityContext from "@/context/cityContex/cityContex";
 import { useContext, useEffect, useState } from "react";
+import { IoIosSearch } from "react-icons/io";
 import axios from "axios";
 
 interface props {
@@ -50,13 +51,18 @@ const SearchBox = () => {
 
   return (
     <form>
-      <input
-        type="text"
-        value={searchText}
-        onChange={handleSearch}
-        placeholder="Search location.."
-        className="px-4 py-2 w-[230px] border border-gray-300 rounded-md h-full focus:outline-none focus:border-blue-500"
-      />
+      <div className="flex items-center border-b border-b-gray-300 focus-within:border-blue-500 focus-within:border-b-2">
+        <span>
+          <IoIosSearch />
+        </span>
+        <input
+          type="text"
+          value={searchText}
+          onChange={handleSearch}
+          placeholder="Search location.."
+          className="px-4 py-2 w-[230px] h-full focus:outline-none"
+        />
+      </div>
       {suggestionBox && searchText != "" && (
         <div className=" py-2 w-[230px] bg-white fixed max-h-[150px] overflow-y-scroll">
           {error && (
