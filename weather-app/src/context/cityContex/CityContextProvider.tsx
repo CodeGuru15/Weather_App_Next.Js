@@ -17,12 +17,10 @@ const CityContextProvider = ({ children }: { children: any }) => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
-  const [searchText, setSearchText] = useState("");
   const [orderBy, setOrderBy] = useState("");
 
-  const apiSearchUrl = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?where=%22${searchText}%22&order_by=${orderBy}&limit=20&offset=${offset}`;
-
-  const apiUrl = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?order_by=${orderBy}&limit=20&offset=${offset}`;
+  const apiEndpoint = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?order_by=${orderBy}&limit=20&offset=${offset}`;
+  const [apiUrl, setApiUrl] = useState(apiEndpoint);
 
   const fetchCityData = async (url: string) => {
     try {
@@ -44,26 +42,23 @@ const CityContextProvider = ({ children }: { children: any }) => {
   };
 
   useEffect(() => {
-    setTimeout(
-      () => fetchCityData(searchText != "" ? apiSearchUrl : apiUrl),
-      1000
-    );
-  }, [offset, searchText, orderBy]);
+    fetchCityData(apiUrl);
+  }, [offset, apiUrl, orderBy]);
 
   return (
     <CityContext.Provider
       value={{
         cityData,
+        setCityData,
         error,
         loading,
         loadMoreData,
         hasMore,
         setHasMore,
         offset,
-        setCityData,
-        searchText,
-        setSearchText,
         setOffset,
+        apiEndpoint,
+        setApiUrl,
         orderBy,
         setOrderBy,
       }}

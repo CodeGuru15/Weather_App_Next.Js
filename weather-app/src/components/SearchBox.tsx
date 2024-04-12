@@ -8,13 +8,15 @@ interface props {
 }
 
 const SearchBox = () => {
-  const { searchText, setSearchText, setCityData, setOffset } =
+  const { setCityData, setOffset, setApiUrl, orderBy, offset, apiEndpoint } =
     useContext(CityContext);
-
+  const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [suggestionBox, setSuggestionBox] = useState(false);
+
+  const apiSearchUrl = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?where=%22${searchText}%22&order_by=${orderBy}&limit=20&offset=${offset}`;
 
   const apiSuggest = `https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/geonames-all-cities-with-a-population-1000/records?select=name&where=suggest(name%2C%20%22${searchText}%22)&limit=20`;
 
@@ -40,7 +42,10 @@ const SearchBox = () => {
   };
 
   useEffect(() => {
-    fetchSuggestions(apiSuggest);
+    if (searchText != "") {
+      fetchSuggestions(apiSuggest);
+      setApiUrl(apiSearchUrl);
+    } else setApiUrl(apiEndpoint);
   }, [searchText]);
 
   return (
