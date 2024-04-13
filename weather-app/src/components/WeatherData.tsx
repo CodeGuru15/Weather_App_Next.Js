@@ -1,6 +1,7 @@
 "use client";
 
-import CityContext from "@/context/cityContex/cityContex";
+import Link from "next/link";
+import CityContext from "../context/cityContext/CityContext";
 import { useContext } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -58,9 +59,11 @@ const Data = () => {
             <tbody>
               {cityData.map((item: props, index: number) => (
                 <tr key={index}>
-                  <td className="border border-black p-1 w-[150px] text-center">
-                    {item.name}
-                  </td>
+                  <Link href="/weather">
+                    <td className="border border-black p-1 w-[150px] text-center">
+                      {item.name}
+                    </td>
+                  </Link>
                   <td className="border border-black p-1 w-[150px] text-center">
                     {item.cou_name_en}
                   </td>

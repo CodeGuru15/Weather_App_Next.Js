@@ -1,5 +1,5 @@
 "use client";
-import CityContext from "@/context/cityContex/cityContex";
+import CityContext from "@/context/cityContext/CityContext";
 import { useContext, useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import axios from "axios";

@@ -1,4 +1,5 @@
-import CityContextProvider from "@/context/cityContex/CityContextProvider";
+import CityContextProvider from "@/context/cityContext/CityContextProvider";
+import WeatherContextProvider from "@/context/weatherContext/WeatherContextProvider";
 import "./globals.css";
 
 export default function RootLayout({
@@ -7,10 +8,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <CityContextProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </CityContextProvider>
+    <WeatherContextProvider>
+      <CityContextProvider>
+        <html lang="en">
+          <body>{children}</body>
+        </html>
+      </CityContextProvider>
+    </WeatherContextProvider>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import CityContext from "./cityContex";
+import CityContext from "../cityContext/CityContext";
 
 interface City {
   name: string;
@@ -11,7 +11,7 @@ interface City {
   coordinates: { lon: number; lat: number };
 }
 
-const CityContextProvider = ({ children }: { children: any }) => {
+const CityContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [cityData, setCityData] = useState<City[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
