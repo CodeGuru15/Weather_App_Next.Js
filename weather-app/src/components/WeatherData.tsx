@@ -4,6 +4,7 @@ import Link from "next/link";
 import CityContext from "../context/cityContext/CityContext";
 import { useContext } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import WeatherContext from "@/context/weatherContext/WeatherContext";
 
 interface props {
   name: string;
@@ -16,6 +17,7 @@ interface props {
 const Data = () => {
   const { cityData, error, loading, hasMore, loadMoreData } =
     useContext(CityContext);
+  const { setLat, setLon } = useContext(WeatherContext);
 
   return (
     <div className="flex flex-col p-5 justify-center items-center">
@@ -59,11 +61,17 @@ const Data = () => {
             <tbody>
               {cityData.map((item: props, index: number) => (
                 <tr key={index}>
-                  <Link href="/weather">
-                    <td className="border border-black p-1 w-[150px] text-center">
+                  <td className="border border-black p-1 w-[150px] text-center">
+                    <Link
+                      href="/weather"
+                      onClick={() => {
+                        setLat(item.coordinates.lat);
+                        setLon(item.coordinates.lon);
+                      }}
+                    >
                       {item.name}
-                    </td>
-                  </Link>
+                    </Link>
+                  </td>
                   <td className="border border-black p-1 w-[150px] text-center">
                     {item.cou_name_en}
                   </td>

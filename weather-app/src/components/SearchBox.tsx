@@ -59,7 +59,7 @@ const SearchBox = () => {
           type="text"
           value={searchText}
           onChange={handleSearch}
-          placeholder="Search location.."
+          placeholder="Search city"
           className="px-4 py-2 w-[230px] h-full focus:outline-none"
         />
       </div>

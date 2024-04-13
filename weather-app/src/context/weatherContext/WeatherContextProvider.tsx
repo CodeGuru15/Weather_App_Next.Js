@@ -8,21 +8,21 @@ const WeatherContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [lat, setLat] = useState(null);
-  const [lon, setLon] = useState(null);
+  const [lat, setLat] = useState(0);
+  const [lon, setLon] = useState(0);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [weatherData, setWeatherData] = useState([]);
+  const [weatherData, setWeatherData] = useState({});
+  const [unit, setUnit] = useState("metric");
 
-  const weatherApi = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=d057f5b71f0d7b20b7845e89fe846027`;
+  const weatherApi = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=d057f5b71f0d7b20b7845e89fe846027&units=${unit}`;
 
   const fetchWeatherData = async (url: string) => {
     try {
       setLoading(true);
       setError(false);
       const response = await axios.get(url);
-      const additionalData = await response.data.results;
-      setWeatherData(additionalData);
+      setWeatherData(response.data);
       setLoading(false);
     } catch (error) {
       setError(true);
@@ -32,11 +32,22 @@ const WeatherContextProvider = ({
 
   useEffect(() => {
     fetchWeatherData(weatherApi);
-  }, [lon, lat]);
+  }, [lon, lat, unit]);
 
   return (
     <WeatherContext.Provider
-      value={{ setLat, setLon, error, loading, weatherData }}
+      value={{
+        setLat,
+        setLon,
+        lat,
+        lon,
+        error,
+        loading,
+        weatherData,
+        setWeatherData,
+        unit,
+        setUnit,
+      }}
     >
       {children}
     </WeatherContext.Provider>
