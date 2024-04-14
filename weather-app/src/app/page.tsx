@@ -4,7 +4,7 @@ import Data from "@/components/WeatherData";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
+    <div className="flex bg-blue-400 flex-col gap-2 min-h-screen">
       <Navbar />
       <SortData />
       <Data />

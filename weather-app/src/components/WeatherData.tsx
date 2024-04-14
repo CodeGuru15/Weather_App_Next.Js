@@ -20,7 +20,7 @@ const Data = () => {
   const { setLat, setLon } = useContext(WeatherContext);
 
   return (
-    <div className="flex flex-col p-5 justify-center items-center">
+    <div className="flex flex-col p-2 justify-center items-center">
       {error && (
         <h1 className="flex flex-col gap-2 text-3xl font-semibold text-red-500">
           <span>Something Went Wrong.</span>
@@ -28,7 +28,7 @@ const Data = () => {
         </h1>
       )}
       {loading && (
-        <h1 className="text-3xl font-semibold text-green-500">Loading...</h1>
+        <h1 className="sm:text-3xl font-semibold text-white">Loading...</h1>
       )}
 
       {cityData.length != 0 && (
@@ -36,24 +36,22 @@ const Data = () => {
           hasMore={hasMore}
           next={loadMoreData}
           dataLength={cityData.length}
-          loader={
-            <p className=" text-2xl text-green-600 text-center">Loading...</p>
-          }
+          loader={<p className="sm:text-2xl  text-center">Loading...</p>}
         >
-          <table>
+          <table className="text-xs sm:text-base p-2">
             <thead>
               <tr>
-                <th className="border border-black p-1 w-[150px] text-center">
+                <th className="border text-xs border-black p-1 text-center">
                   CITY
                 </th>
-                <th className="border border-black p-1 w-[150px] text-center">
+                <th className="border text-xs border-black p-1 text-center">
                   COUNTRY
                 </th>
-                <th className="border border-black p-1 w-[150px] text-center">
+                <th className="border text-xs border-black p-1 text-center">
                   TIMEZONE
                 </th>
-                <th className="border border-black p-1 w-[150px] text-center">
-                  Population
+                <th className="border text-xs border-black p-1 text-center">
+                  PEOPLE
                 </th>
               </tr>
             </thead>
@@ -61,7 +59,7 @@ const Data = () => {
             <tbody>
               {cityData.map((item: props, index: number) => (
                 <tr key={index}>
-                  <td className="border border-black p-1 w-[150px] text-center">
+                  <td className="border border-black p-1 text-center md:px-5 md:text-2xl">
                     <Link
                       href="/weather"
                       onClick={() => {
@@ -72,13 +70,13 @@ const Data = () => {
                       {item.name}
                     </Link>
                   </td>
-                  <td className="border border-black p-1 w-[150px] text-center">
+                  <td className="border border-black p-1  text-center md:px-5 md:text-2xl">
                     {item.cou_name_en}
                   </td>
-                  <td className="border border-black p-1 w-[150px] text-center">
+                  <td className="border border-black p-1  text-center md:px-5 md:text-2xl">
                     {item.timezone}
                   </td>
-                  <td className="border border-black p-1 w-[150px] text-center">
+                  <td className="border border-black  p-1   text-center md:px-5 md:text-2xl">
                     {item.population}
                   </td>
                 </tr>

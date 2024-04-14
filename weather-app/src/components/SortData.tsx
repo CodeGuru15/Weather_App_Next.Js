@@ -3,11 +3,12 @@ import CityContext from "@/context/cityContext/CityContext";
 import { useContext, useEffect } from "react";
 
 const SortData = () => {
-  const { orderBy, setOrderBy, setCityData, setApiUrl, offset } =
+  const { orderBy, setOrderBy, setCityData, setApiUrl, offset, setSearchText } =
     useContext(CityContext);
 
   const handleSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setOrderBy(event.target.value);
+    setSearchText("");
     setCityData([]);
   };
 
@@ -20,7 +21,12 @@ const SortData = () => {
   return (
     <div className=" flex justify-center">
       <span className="px-2"> Sort By</span>
-      <select name="sort" onChange={handleSort} value={orderBy}>
+      <select
+        name="sort"
+        className=" bg-inherit focus:outline-none"
+        onChange={handleSort}
+        value={orderBy}
+      >
         <option value="name">City</option>
         <option value="cou_name_en">Country</option>
         <option value="timezone">Time Zone</option>

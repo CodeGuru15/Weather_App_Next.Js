@@ -9,9 +9,17 @@ interface props {
 }
 
 const SearchBox = () => {
-  const { setCityData, setOffset, setApiUrl, orderBy, offset, apiEndpoint } =
-    useContext(CityContext);
-  const [searchText, setSearchText] = useState("");
+  const {
+    setCityData,
+    setOffset,
+    setApiUrl,
+    orderBy,
+    offset,
+    apiEndpoint,
+    searchText,
+    setSearchText,
+  } = useContext(CityContext);
+
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,6 +44,7 @@ const SearchBox = () => {
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setSuggestionBox(true);
     setSearchText(e.target.value);
     setCityData([]);
@@ -59,12 +68,12 @@ const SearchBox = () => {
           type="text"
           value={searchText}
           onChange={handleSearch}
-          placeholder="Search city"
-          className="px-4 py-2 w-[230px] h-full focus:outline-none"
+          placeholder="Search location..."
+          className="sm:px-4 px-2 py-2 sm:w-[230px] w-[130px] h-full focus:outline-none"
         />
       </div>
       {suggestionBox && searchText != "" && (
-        <div className=" py-2 w-[230px] bg-white fixed max-h-[150px] overflow-y-scroll">
+        <div className=" py-2 sm:w-[230px]  w-[140px] bg-white fixed max-h-[150px] overflow-y-scroll">
           {error && (
             <span className=" text-red-600">Opps! Something Went Wrong.</span>
           )}
